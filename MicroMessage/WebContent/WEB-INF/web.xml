@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	id="WebApp_ID" version="3.1">
-	<display-name>MicroMessage</display-name>
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
-	<servlet>
-		<servlet-name>ListServlet</servlet-name>
-		<servlet-class>com.imooc.servlet.ListServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>ListServlet</servlet-name>
-		<url-pattern>/List.action</url-pattern>
-	</servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>MicroMessage</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>ListServlet</servlet-name>
+    <servlet-class>com.imooc.servlet.ListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListServlet</servlet-name>
+    <url-pattern>/List.action</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 每添加一個servlet,就要在web.xml中进行相应的配置， -->
+  <servlet>
+    <servlet-name>deleteOneServlet</servlet-name>
+    <servlet-class>com.imooc.servlet.deleteOneServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteOneServlet</servlet-name>
+    <url-pattern>/deleteOneServlet.action</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>deleteBatchServlet</servlet-name>
+    <servlet-class>com.imooc.servlet.deleteBatchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteBatchServlet</servlet-name>
+    <url-pattern>/deleteBatchServlet.action</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>initTalkServlet</servlet-name>
+    <servlet-class>com.imooc.servlet.initTalkServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>initTalkServlet</servlet-name>
+    <url-pattern>/initTalkServlet.action</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>AutoReplyServlet</servlet-name>
+  	<servlet-class>com.imooc.servlet.AutoReplyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AutoReplyServlet</servlet-name>
+  	<url-pattern>/AutoReplyServlet.action</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

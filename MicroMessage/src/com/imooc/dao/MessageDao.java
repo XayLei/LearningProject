@@ -24,12 +24,16 @@ public class MessageDao {
 		SqlSession sqlSession = null;
 		try {
 			sqlSession = dbAccess.getSqlSession();
+			
+			//参数传递，将页面中输入的查询参数输入到sql语句中，因为下面的selectList中只能带有一个参数，则将传入的参数放入
+			//新创建的message对象中，这样就实现了一次传入两个参数到MySQL语句中
 			Message message = new Message();
 			message.setCommand(command);
 			message.setDescription(description);
+			
 			//通过sqlSession执行SQL语句
 			//Message是sql配置文件中mapper的namespace，queryMessageList是单个SQL语句的ID
-			messageList = sqlSession.selectList("Message.queryMessageList",message);
+			messageList = sqlSession.selectList("Message.queryMessageList",message); //只能传入一个参数
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +43,46 @@ public class MessageDao {
 			}
 		}
 		return messageList;
-	}	
+	}
+	
+	/**
+	 * 实现数据库单条记录的删除，在xml文件中配置完成后，这里实现一个删除方法
+	 */
+	public void deleteOne(Integer id){
+		DBAccess dbAccess = new DBAccess();
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = dbAccess.getSqlSession();
+			sqlSession.delete("Message.deleteOne",id);
+			sqlSession.commit();//增删改与查询不同，会改变数据库，所以在执行完SQL语句后需要手动提交
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if(sqlSession!=null){	
+				sqlSession.close();
+			}
+		}
+	}
+	
+	/**
+	 * 实现批量记录的删除，在xml文件中配置完成后，这里实现一个删除方法
+	 */
+	public void deleteBatch(List<Integer> ids){
+		DBAccess dbAccess = new DBAccess();
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = dbAccess.getSqlSession();
+			sqlSession.delete("Message.deleteBatch",ids);
+			sqlSession.commit();//增删改与查询不同，会改变数据库，所以在执行完SQL语句后需要手动提交
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if(sqlSession!=null){	
+				sqlSession.close();
+			}
+		}
+	}
+	
 	/**
 	 * jdbc方法
 	 * 根据查询条件查询列表

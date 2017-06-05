@@ -7,28 +7,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.imooc.service.QueryService;
+import com.imooc.service.MaintainService;
 
 /**
- * 列表页面初始化控制
+ * @author xulei
+ *单条删除控制层
  */
 @SuppressWarnings("serial")
-public class ListServlet extends HttpServlet {
+public class deleteOneServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//设置编码格式
 		req.setCharacterEncoding("UTF-8");
 		//接收页面的值
-		String command = req.getParameter("command");
-		String description = req.getParameter("description");
-		//向页面传值
-		req.setAttribute("command", command);
-		req.setAttribute("description", description);
-		QueryService listService = new QueryService();
-		//查询消息列表并将值传递给页面
-		req.setAttribute("messageList", listService.queryMessageList(command, description));
+		String id = req.getParameter("id");
+		MaintainService maintainService = new MaintainService();
+		maintainService.deleteOne(id);
 		//向页面跳转
-		req.getRequestDispatcher("/WEB-INF/jsps/back/list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/List.action").forward(req, resp);
 	}
 
 	@Override

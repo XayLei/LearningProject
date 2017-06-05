@@ -1,2 +1,10 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/jsps/back/list.jsp=UTF-8
+encoding//WebContent/resources/js/common/jquery-1.8.0.min.js=UTF-8
+encoding//WebContent/resources/js/common/jquery.jscrollpane.min.js=UTF-8
+encoding//WebContent/resources/js/common/jquery.mousewheel.js=UTF-8
+encoding//WebContent/resources/js/common/scroll-startstop.events.jquery.js=UTF-8
+encoding//src/com/imooc/dao/CommandDao.java=UTF-8
+encoding//src/com/imooc/servlet/AutoReplyServlet.java=UTF-8
+encoding//src/com/imooc/util/CommonUtil.java=UTF-8
+encoding//src/com/imooc/util/Iconst.java=UTF-8

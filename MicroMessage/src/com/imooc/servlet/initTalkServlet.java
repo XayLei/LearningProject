@@ -7,28 +7,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.imooc.service.QueryService;
 
 /**
- * 列表页面初始化控制
+ * @author xulei
+ *对话页面的初始化设置
+ *在浏览器页面中如果显示乱码，则说明是talk.jsp与jscrollpane1.css文件编码错误
+ *解决方式：用notepad++打开，以UTF-8编码另存，再覆盖入工程，这样就可以解决了解决
  */
 @SuppressWarnings("serial")
-public class ListServlet extends HttpServlet {
+public class initTalkServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//设置编码格式
 		req.setCharacterEncoding("UTF-8");
-		//接收页面的值
-		String command = req.getParameter("command");
-		String description = req.getParameter("description");
-		//向页面传值
-		req.setAttribute("command", command);
-		req.setAttribute("description", description);
-		QueryService listService = new QueryService();
-		//查询消息列表并将值传递给页面
-		req.setAttribute("messageList", listService.queryMessageList(command, description));
 		//向页面跳转
-		req.getRequestDispatcher("/WEB-INF/jsps/back/list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsps/front/talk.jsp").forward(req, resp);
 	}
 
 	@Override

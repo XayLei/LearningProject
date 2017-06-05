@@ -15,7 +15,33 @@
 
 	<!-- id属性就是为了这条SQL语句起一个名字，使java代码中的sqlsession通过这个ID来调用SQL语句 -->
 	<!-- resultMap就是上面resultMap中的ID -->
+	<!-- parameterType表明传入参数的类型，在messageDao中传入了message对象，则这里就是Message类型（包名+类名），只能传递一个参数 -->
 	<select id="queryMessageList" parameterType="com.imooc.bean.Message" resultMap="MessageResult">
-		select ID,COMMAND,DESCRIPTION,CONTENT FROM MESSAGE where 1=1
+		select ID,COMMAND,DESCRIPTION,CONTENT FROM MESSAGE
+		<!-- 但是传进的参数怎么在配置文件中利用呢？如何应用到SQL语句呢？使用if标签，实现SQL语句动态拼接，这里实现的就是查询功能 -->
+		<!-- 这里的条件如果匹配，则将 “and COMMAND=?”这句动态拼接到上面的SQL后，实现SQL动态拼接-->
+		<!-- 这里的条件表达式使用OGNL表达式 ，OGNL可以直接使用自定义对象的属性，这里是直接可以使用message的command属性进行判断-->
+		<!-- 并且OGNL语言直接支持Java对象的方法，如下 -->
+		<!-- OGNL中不能直接使用&&或是""，&&可以写成and，这是OGNL自己的语法，""要写成&quot;&quot; -->
+		<!-- 传入参数不能写成？号,必须是#{中间填写参数名} -->
+		<where>
+			<if test="command != null and !&quot;&quot;.equals(command.trim())"> and COMMAND=#{command}</if>
+			<if test="description != null and !&quot;&quot;.equals(description.trim())"> and DESCRIPTION like '%' #{description} '%'</if>
+		</where>
+		<!-- where标签的作用有2，一是当条件都不满足时，查询语句后面就没有where，成为无条件查询 -->
+		<!-- 第二个作用就是当两个条件都满足时，去掉SQL语句中多余的一个and -->
 	</select>
+	
+	<delete id="deleteOne" parameterType="int">
+		delete from MESSAGE where ID=#{_parameter}
+	</delete>
+	
+	<!-- 批量删除配置 -->
+	<delete id="deleteBatch" parameterType="java.util.List">
+		delete from MESSAGE where ID in(
+			<foreach collection="list" item="item" separator=",">
+				#{item}
+			</foreach>
+		)
+	</delete>
 </mapper>
