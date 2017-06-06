@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Message">
+<mapper namespace="com.imooc.dao.IMessage">
 
 	<resultMap type="com.imooc.bean.Message" id="MessageResult">
 		<!-- column代表数据库中的列名 ，property代表bean中相对应的属性名-->

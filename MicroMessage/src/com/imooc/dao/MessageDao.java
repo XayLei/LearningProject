@@ -33,7 +33,11 @@ public class MessageDao {
 			
 			//通过sqlSession执行SQL语句
 			//Message是sql配置文件中mapper的namespace，queryMessageList是单个SQL语句的ID
-			messageList = sqlSession.selectList("Message.queryMessageList",message); //只能传入一个参数
+            // messageList = sqlSession.selectList("Message.queryMessageList",message); //只能传入一个参数
+			
+			//通過接口编程的替代方法
+			IMessage imessage = sqlSession.getMapper(IMessage.class);
+			messageList = imessage.queryMessageList(message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
