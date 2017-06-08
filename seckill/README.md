@@ -35,7 +35,7 @@ SQL写在XML文件中，通过Mapper机制来实现DAO接口
 
 在resources文件夹中创建spring文件夹，用于存放spring配置文件，创建spring-dao.xml，用于存放spring所有与DAO层相关的配置。
 
-在spring-dao.xml中配置整合mybatis过程：
+### 在spring-dao.xml中配置整合mybatis过程： ###
 
 1:配置数据库相关参数properties的属性：${url} 
 
@@ -46,3 +46,53 @@ SQL写在XML文件中，通过Mapper机制来实现DAO接口
 4:配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中
 
 classpath在maven项目中就是main下的Java目录和resource目录 
+
+接下来就是DAO层的单元测试，生成测试类后，
+
+
+### SeckillDaoTest第一次测试时遇到的问题： ###
+
+1、@Resource注解没有，相应的jar包也导入了，还是不行，暂时用@Autowire代替
+
+2、出现错误提示
+
+**通配符的匹配很全面, 但无法找到元素 'context:property-placeholder' 的声明**
+
+在Spring配置文件中出现通配符的匹配很全面, 但无法找到元素 'context:property-placeholder' 的声明这个错误，其实主要是我们在引入命名空间时没有正确引入它的DTD解析文件，当然你必须在把Spring相应的包导入正确的情况下。 
+
+  解决方案就是如下： 
+
+       xmlns:context="http://www.springframework.org/schema/context" 
+       同时在xsi:schemaLocation这个字符串中添加context相关的解析文件 
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-4.2.xsd。 
+
+其他的如util命名空间导入方式一样，只是把context换成相应util就可以了。
+
+3、org.springframework.jdbc.CannotGetJdbcConnectionException: Could not get JDBC Connection
+
+原因：在jdbc.properties中将url端口号3306写成了3307
+
+4、使用c3p0连接池会报MyBatisSystemException，并且嵌套org.apache.ibatis.exceptions.PersistenceException异常，没有找出解决方案
+
+最终将c3p0替换为
+
+		<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.11</version>
+        </dependency>
+
+5、java.lang.AbstractMethodError: org.mybatis.spring.transaction.SpringManagedTransaction.getTimeout()Ljava/lang/Integer;出现这个异常
+
+jar包版本不兼容的问题，springframework，mybatis-spring，mybatis.version全部更换为最新版就解决了。
+
+6、关于@Resource注解无法使用的问题，在pom.xml中添加以下依赖
+
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+**至此，DAO层全部结束，spring与mybatis整合结束**

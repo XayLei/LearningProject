@@ -7,8 +7,8 @@
 	<insert id="insertSuccessKilled" >
 		<!-- 主键冲突，报错 -->
 		<!-- 在SQL语句中加入ignore后就不会报错，而是直接忽略这条插入，返回0，即影响0条记录 -->
-		insert ignore into success_killed(seckill_id,user_phone)
-		values (#{seckillId},#{userPhone})
+		insert ignore into success_killed(seckill_id,user_phone,state)
+		values (#{seckillId},#{userPhone},0)
 		
 	</insert>
 	
@@ -29,6 +29,6 @@
 			s.create_time "seckill.create_time"
 		from success_killed sk
 		inner join seckill s on sk.seckill_id = s.seckill_id
-		where sk.seckill_id=#{seckillId}
+		where sk.seckill_id=#{seckillId} and sk.user_phone=#{userPhone}
 	</select>
 </mapper>
