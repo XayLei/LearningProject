@@ -16,18 +16,26 @@ import org.seckill.exception.SeckillException;
 import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 /**
  * @author Ray:
  * @version 2017年6月8日 下午9:45:36 类说明 :
  */
+
+@Service
 public class SeckillServiceImpl implements SeckillService {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	//注入service依赖
+	@Autowired
 	private SeckillDao seckillDao;
 
+	@Autowired
 	private SuccessKilledDao successKilledDao;
 
 	// 用于混淆MD5
@@ -67,6 +75,7 @@ public class SeckillServiceImpl implements SeckillService {
 		return md5;
 	}
 
+	@Transactional
 	public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
 			throws SeckillException, SeckillCloseException, RepeatKillException {
 		if (md5 == null || md5.equals(getMD5(seckillId))) {
@@ -98,7 +107,7 @@ public class SeckillServiceImpl implements SeckillService {
 			throw e2;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			// 所有编译器异常转化为运行期异常
+			// 所有编译期异常转化为运行期异常
 			throw new SeckillException("seckill inner error:" + e.getMessage());
 		}
 	}
